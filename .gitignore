@@ -1,2 +1,3 @@
-*.sh*
 timesheet
+timesheet.test
+*.swp
