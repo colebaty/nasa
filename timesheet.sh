@@ -1,9 +1,11 @@
 #!/usr/bin/bash
 
 # automatically log checkin/out to a timesheet
-# if no timesheet present, create one and 
+# if no timesheet present 
+#   create one and 
 #   check in immediately
-# else create new log entry based on last logged action
+# else 
+#   create new log entry based on last logged action
 
 WORKING_DIR="/home/cole/nasa"
 LAST_ACTION=""
