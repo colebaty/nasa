@@ -16,7 +16,7 @@ if [ ! -f $WORKING_DIR/timesheet ]; then
     touch $WORKING_DIR/timesheet
     LAST_ACTION="checkout"
 else
-    LAST_ACTION=$(tail -n1 $WORKING_DIR/timesheet | awk '{print $8}')
+    LAST_ACTION=$(tail -n1 $WORKING_DIR/timesheet | cut -d' ' -f 8)
 fi
 
 # echo "LAST_ACTION: $LAST_ACTION"
