@@ -7,7 +7,8 @@
 # else 
 #   create new log entry based on last logged action
 
-WORKING_DIR="/home/cole/nasa"
+USER=`whoami`
+WORKING_DIR="/home/$USER/nasa"
 LAST_ACTION=""
 
 # test for timesheet

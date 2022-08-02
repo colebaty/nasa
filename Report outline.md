@@ -27,4 +27,4 @@
 	- Program delivery
 	- Postmortem
 		- Viewing statistics
-	- Insights
+- Insights
