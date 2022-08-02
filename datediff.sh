@@ -23,11 +23,36 @@ print_time() {
 begin=$(head -n 1 $WORKING_DIR/timesheet | cut -d' ' -f8 --complement)
 end=$(tail -n 1 $WORKING_DIR/timesheet | cut -d' ' -f8 --complement)
 
-
 datediff "$begin" "$end"
 print_time $diff
 
-# while read -r line; do
-    # echo "line: $line"
-    # echo "date: $(date -d "$line")"
-# done <<< $(cat $WORKING_DIR/timesheet.test | cut -d' ' -f8 --complement)
+declare -A checkins
+declare -A checkouts
+declare -A totals
+
+while read -r line; do
+    echo "line: $line"
+    action=$(echo $line | cut -d' ' -f8)
+    dindex=$(date -d "$(echo $line | cut -d' ' -f8 --complement)" +%Y/%m/%d)
+    full_date_epoch=$(date -d "$(echo $line | cut -d' ' -f8 --complement)" +%s)
+    if [ "$action" == "checkin" ]; then
+        checkins[$dindex]=$full_date_epoch
+        echo "adding $dindex to checkins"
+        echo ${checkins[$dindex]}
+    elif [ "$action" == "checkout" ]; then
+        checkouts[$dindex]=$full_date_epoch
+        echo "adding $dindex to checkouts"
+        echo ${checkins[$dindex]}
+    fi
+done <<< $(cat $WORKING_DIR/timesheet)
+
+if (( ${#checkins[@]} == ${#checkouts[@]} )); then
+    echo "parity"
+    for ddate in ${!checkins[@]}; do
+        #datediff ${checkins[$ddate]} ${checkouts[$ddate]}
+        totals[$ddate]+=$(( ${checkouts[$ddate]} - ${checkins[$ddate]} ))
+        print_time ${totals[$ddate]}
+    done
+elif (( ${#checkouts[@]} == (${#checkins[@]} - 1) )); then
+    echo "need to check out"
+fi
