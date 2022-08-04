@@ -2,3 +2,4 @@ timesheet
 timesheet.test
 timesheet.save
 *.swp
+.venv
